@@ -11,6 +11,8 @@ spec:
         app: gateway
     spec:
       serviceAccountName: faas-controller
+      securityContext:
+        runAsUser: 1000
       containers:
       - name: gateway
         image: openfaas/gateway:0.11.0
@@ -22,7 +24,6 @@ spec:
           initialDelaySeconds: 2
           periodSeconds: 10
           timeoutSeconds: 2
-
         env:
         - name: functions_provider_url
           value: "http://127.0.0.1:8081/" # Final `.` specifies an absolute address
@@ -53,12 +54,13 @@ spec:
         ports:
         - containerPort: 8080
           protocol: TCP
-
         resources:
           requests:
-            memory: 250Mi
+            cpu: 500m
+            memory: 512Mi
           limits:
-            memory: 250Mi   # Adjust to suit needs of deployment
+            cpu: 500m
+            memory: 512Mi   # Adjust to suit needs of deployment
       - name: faas-netes
         image: openfaas/faas-netes:0.7.0
         imagePullPolicy: Always
@@ -71,6 +73,13 @@ spec:
           value: "60s"
         - name: write_timeout
           value: "60s"
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256mi
+          limits:
+            cpu: 250m
+            memory: 256mi
         ports:
         - containerPort: 8081
           protocol: TCP

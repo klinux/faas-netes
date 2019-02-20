@@ -10,6 +10,9 @@ spec:
       labels:
         app: prometheus
     spec:
+      serviceAccountName: faas-controller
+      securityContext:
+        runAsUser: 1000
       containers:
       - name: prometheus
         image: prom/prometheus:v2.3.2
@@ -23,8 +26,10 @@ spec:
           protocol: TCP
         resources:
           requests:
+            cpu: 500m
             memory: 512Mi
           limits:
+            cpu: 500m
             memory: 512Mi
         volumeMounts:
         - mountPath: /etc/prometheus/prometheus.yml

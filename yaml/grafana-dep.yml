@@ -12,6 +12,7 @@ spec:
       labels:
         app: grafana
     spec:
+      serviceAccountName: faas-controller
       containers:
       - image: stefanprodan/faas-grafana:4.6.3
         name: grafana

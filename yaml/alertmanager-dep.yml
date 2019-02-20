@@ -10,6 +10,7 @@ spec:
       labels:
         app: alertmanager
     spec:
+      serviceAccountName: faas-controller
       containers:
       - name: alertmanager
         image: prom/alertmanager:v0.15.0
@@ -23,8 +24,10 @@ spec:
           protocol: TCP
         resources:
           requests:
+            cpu: 100m
             memory: 25Mi
           limits:
+            cpu: 100m
             memory: 50Mi
         volumeMounts:
         - mountPath: /alertmanager.yml
